@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Grid, TextField } from '@material-ui/core';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 
@@ -9,6 +9,23 @@ function App() {
 
   const [user, setUser] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
+
+  const loadMessages = {
+    command: "load_messages",
+    doctor: "mcc@gmail.com",
+    patient: "ife@gmail.com"
+  }
+
+  //this function  is only called once upon landing on the page
+  useEffect(() => {
+    axios.get('https://eveve.herokuapp.com/api/v1/chat/', loadMessages)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, [])
 
   const handleSubmit = e => {
     e.preventDefault();
